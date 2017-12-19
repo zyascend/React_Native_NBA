@@ -39,7 +39,7 @@ export class SplashScreen extends Component{
 	render() {
 		return(
 			<View style={styles.container}>
-				<Image style={styles.image} source={require('../assets/img/splash.png')}/>
+				<Image style={styles.image} source={require('../assets/imges/splash.png')}/>
 			</View>
 		)
 	}
