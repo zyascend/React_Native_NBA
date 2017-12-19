@@ -8,6 +8,9 @@
     "android": "react-native run-android"
   },
   "dependencies": {
-    "react-native": "0.51.0"
+    "react": "16.0.0",
+    "react-native": "0.51.0",
+    "react-native-ui-kitten": "^2.0.1",
+    "react-navigation": "^1.0.0-beta.22"
   }
 }
