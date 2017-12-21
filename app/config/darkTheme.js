@@ -90,6 +90,7 @@ export const DarkKittenTheme = {
       hint: Colors.alterForeground
     },
     screen: {
+
       base: Colors.background,
       alter: Colors.alterBackground,
       scroll: Colors.background,

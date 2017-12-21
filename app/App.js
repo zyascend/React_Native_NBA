@@ -1,8 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
 
 import React, { Component } from 'react';
 import {
@@ -14,20 +9,27 @@ import {
 
 import {StackNavigator} from "react-navigation";
 import * as Screen from './screen';
-import {TabInStack} from "./config/navigation/routes";
+import {BottomBars} from "./config/navigation/routes";
 import {bootstrap} from "./config/bootstrap";
 
 //设置主题，配置RkTheme
 bootstrap();
 
-const NBAApp = StackNavigator({
-	Splash: {
-		screen: Screen.SplashScreen
+const NBAApp = StackNavigator(
+	{
+		Splash: {
+			screen: Screen.SplashScreen
+		},
+		Main:{
+			screen:BottomBars
+		},
 	},
-	Main:{
-		screen:TabInStack
+	{
+		navigationOptions:{
+			header:null,
+		},
 	}
-});
+);
 
 export default class App extends Component<{}> {
   render() {

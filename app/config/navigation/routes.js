@@ -1,18 +1,20 @@
-import * as Screen from '../../screen';
-import {StackNavigator,TabNavigator,TabBarBottom} from 'react-navigation';
+import React from 'react';
+import * as Screen from '../../screen/index';
+import {StackNavigator,TabNavigator,TabBarBottom,TabView,TabBarTop} from 'react-navigation';
 import {TabBarItem} from "../../component/tabitem";
 import transition from "./transitions";
 import {withRkTheme} from "react-native-ui-kitten";
 import {NavigationBar} from "../../component/navigationBar";
+import {LightTheme as theme} from "../theme";
 
-const Tab = TabNavigator(
+const BottomNavigator = TabNavigator(
 	{
 		Games:{
 			// title:"ReactNews",
-			screen: withRkTheme(Screen.GamesScreen),
+			screen: Screen.GamesScreen,
 			navigationOptions:({navigation}) => ({
 				tabBarLabel:'比赛',
-				headerTitle:"比赛",
+				// headerTitle:"比赛",
 				title: '比赛',
 				tabBarIcon:({focused,tintColor}) => (
 					<TabBarItem
@@ -25,11 +27,11 @@ const Tab = TabNavigator(
 			}),
 		},
 		Newest:{
-			screen: withRkTheme(Screen.NewestScreen),
+			screen: Screen.NewestScreen,
 			// title:"发现",
 			navigationOptions:({navigation}) => ({
 				tabBarLabel:'最新',
-				headerTitle:"最新",
+				// headerTitle:"最新",
 				title: '最新',
 				tabBarIcon:({focused,tintColor}) => (
 					<TabBarItem
@@ -42,10 +44,10 @@ const Tab = TabNavigator(
 			}),
 		},
 		Video:{
-			screen: withRkTheme(Screen.VideoScreen),
+			screen: Screen.VideoScreen,
 			navigationOptions:({navigation}) => ({
 				tabBarLabel:'视频',
-				headerTitle:"视频",
+				// headerTitle:"视频",
 				title: '视频',
 				tabBarIcon:({focused,tintColor}) => (
 					<TabBarItem
@@ -58,11 +60,11 @@ const Tab = TabNavigator(
 			}),
 		},
 		Data:{
-			screen: withRkTheme(Screen.DataScreen),
+			screen: Screen.DataScreen,
 			// title:"我的",
 			navigationOptions:({navigation}) => ({
 				tabBarLabel:'数据',
-				headerTitle:"数据",
+				// headerTitle:"数据",
 				title: '数据',
 				tabBarIcon:({focused,tintColor}) => (
 					<TabBarItem
@@ -75,11 +77,11 @@ const Tab = TabNavigator(
 			}),
 		},
 		More:{
-			screen: withRkTheme(Screen.MoreScreen),
+			screen: Screen.MoreScreen,
 			// title:"我的",
 			navigationOptions:({navigation}) => ({
 				tabBarLabel:'更多',
-				headerTitle:"更多",
+				// headerTitle:"更多",
 				title: '更多',
 				tabBarIcon:({focused,tintColor}) => (
 					<TabBarItem
@@ -101,24 +103,86 @@ const Tab = TabNavigator(
 		animationEnabled:false,
 		lazy:true,
 		tabBarOptions:{
-			activeTintColor:'orange',
-			inactiveTintColor:'#979797',
+			activeTintColor:theme.colors.text.inverse,
+			inactiveTintColor:theme.colors.input.label,
 			style:{
-				backgroundColor:'#ffffff',
+				backgroundColor:theme.colors.screen.bottomBar,
+				// height:53
 			},
 			labelStyle: {
-				fontSize: 13, // 文字大小
+				fontSize: 10, // 文字大小
 			},
 		}
 
 	}
 
 );
-let ThemedNavigationBar = withRkTheme(NavigationBar);
-export const TabInStack = StackNavigator(
+
+const TabNavigators = TabNavigator(
+	{
+		Schedule: {
+			// title:"ReactNews",
+			screen: Screen.ScheduleScreen,
+			navigationOptions: ({navigation}) => ({
+				tabBarLabel: '赛程',
+			}),
+		},
+		Follow: {
+			// title:"ReactNews",
+			screen: Screen.FollowScreen,
+			navigationOptions: ({navigation}) => ({
+				tabBarLabel: '关注',
+			}),
+		},
+	},
+	{
+		tabBarComponent:TabBarTop,
+		tabBarPosition:'top',
+		swipeEnabled:false,
+		animationEnabled:true,
+		lazy:true,
+		tabBarOptions:{
+			activeTintColor:theme.colors.text.inverse,
+			inactiveTintColor:theme.colors.text.secondary,
+			style:{
+				backgroundColor:theme.colors.screen.header,
+				// height:53
+			},
+			labelStyle: {
+				fontSize: 15, // 文字大小
+			},
+			indicatorStyle :{
+				height:3,
+				marginBottom:2,
+				backgroundColor:theme.colors.screen.bottomBar
+			},
+
+
+		}
+
+	}
+
+);
+
+export const Tabs = StackNavigator(
 	{
 		Tab: {
-			screen: Tab
+			screen: TabNavigators
+		}
+	},
+	{
+		navigationOptions: ({navigation, screenProps}) => ({
+			gesturesEnabled: false,
+			header: null
+		})
+	}
+);
+
+let ThemedNavigationBar = withRkTheme(NavigationBar);
+export const BottomBars = StackNavigator(
+	{
+		Tab: {
+			screen: BottomNavigator
 		}
 	},
 	{

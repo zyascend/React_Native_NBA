@@ -8,10 +8,9 @@ import {
 } from 'react-native';
 
 import {
-	RkText,
 	RkTheme
 } from 'react-native-ui-kitten';
-import {LightTheme} from "../config/theme";
+import {LightTheme} from "../../config/theme";
 import {NavigationActions} from 'react-navigation';
 
 /**
@@ -39,7 +38,7 @@ export class SplashScreen extends Component{
 	render() {
 		return(
 			<View style={styles.container}>
-				<Image style={styles.image} source={require('../assets/imges/splash.png')}/>
+				<Image style={styles.image} source={require('../../assets/imges/splash.png')}/>
 			</View>
 		)
 	}

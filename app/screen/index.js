@@ -1,4 +1,4 @@
-export * from './splash';
+export * from './other';
 export * from './data';
 export * from './games';
 export * from './more';

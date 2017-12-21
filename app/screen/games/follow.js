@@ -11,10 +11,10 @@ import {
 	RkTheme
 } from 'react-native-ui-kitten'
 
-export class GamesScreen extends Component{
+export class FollowScreen extends Component{
 	render() {
 		return(
-			<RkText>Games</RkText>
+			<RkText>关注</RkText>
 		)
 	}
 }
