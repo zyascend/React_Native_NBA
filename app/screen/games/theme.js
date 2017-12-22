@@ -1,4 +1,4 @@
-import {scale, scaleVertical} from '../utils/scale'
+import {scale, scaleVertical} from '../../utils/scale'
 
 const Colors = {
 	accent: '#006ab5',
@@ -192,4 +192,6 @@ export const LightTheme = {
 		}
 	}
 };
+
+module.exports = LightTheme;
 

@@ -10,8 +10,8 @@ import {
 import {
 	RkTheme
 } from 'react-native-ui-kitten';
-import {LightTheme} from "../../config/theme";
 import {NavigationActions} from 'react-navigation';
+import {LightTheme} from "../../config/theme";
 
 /**
  * 启动图页面
