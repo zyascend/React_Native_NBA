@@ -21,10 +21,19 @@ export class ScheduleScreen extends Component{
 
 	constructor(props){
 		super(props);
+		this._fetchData.bind(this);
+		// this.renderItem = this._renderItem.bind(this);
+		// this.renderDateText = this._renderDateText.bind(this);
+
+		this._renderDateText.bind(this);
+		this._onPress.bind(this);
+
+		this.page = 0;//代表与今天相差的天数 +1明天 -1昨天
+		this.currentDateData = null;//用于网络请求的参数
+		this.currentDateText = this._renderDateText(0);//用于显示顶部日期
 		this.state={
-			page: 0, //代表与今天相差的天数 +1明天 -1昨天
+			data: [],
 		};
-		console.log('page= '+this.state.page)
 	}
 
 	render() {
@@ -33,21 +42,19 @@ export class ScheduleScreen extends Component{
 				<View style={styles.date}>
 					<RkButton
 						rkType='clear'
-						onPress={() => {
-							this.setState({
-							page: this.state.page - 1
-						})}}>
+						onPress={() =>{
+							this._onPress(-1)
+						}}>
 						<Image source={require('../../assets/icons/arrow_datepicker_left.png')} style={styles.arrow}/>
 					</RkButton>
 					<View style={styles.middle}>
-						<RkText rkType='regular inverseColor' style={styles.dateText}>{this._renderDateText(this.state.page)}(共5场比赛)</RkText>
+						<RkText rkType='regular inverseColor' style={styles.dateText}>{this.currentDateText}(共{this.state.data.length}场比赛)</RkText>
 					</View>
 					<RkButton
 						rkType='clear'
 						onPress={() => {
-							this.setState({
-								page: this.state.page + 1
-							})}}>
+							this._onPress(+1)
+						}}>
 						<Image source={require('../../assets/icons/arrow_datepicker_right.png')} style={styles.arrow}/>
 					</RkButton>
 				</View>
@@ -55,39 +62,32 @@ export class ScheduleScreen extends Component{
 		)
 	}
 
+	_onPress(operate){
+		this.page = this.page + operate;
+		this.currentDateText = this._renderDateText(this.page);
+		this._fetchData();
+	}
+
 	_renderDateText(page) {
-		console.log('p = '+page);
-		let formatDate = function (date) {
-			let y = date.getFullYear();
-			let m = date.getMonth() + 1;
-			m = m < 10 ? '0' + m : m;
-			let d = date.getDate();
-			d = d < 10 ? ('0' + d) : d;
-			return y + '-' + m + '-' + d;
-		};
-
-		let addDate = function(date,days){
-			let d=new Date(date);
-			d.setDate(d.getDate()+days);
-			let month=d.getMonth()+1;
-			let day = d.getDate();
-			if(month<10){
-				month = "0"+month;
-			}
-			if(day<10){
-				day = "0"+day;
-			}
-			return new Date(d.getFullYear() + "/" + month + "/" + day);
-		};
-
-		let current = addDate(formatDate(new Date()),page);
-
-		let month = current.getMonth();
-		let day = current.getDate() + page;
+		let current = new Date(new Date()-0+ page * 86400000);
+		let month = current.getMonth() + 1 ;
+		let day = current.getDate();
 		let weekday = DayArray[current.getDay()];
 		let isToday = page === 0 ?'今天 ': '';
-
+		this.currentDateData = current.getFullYear()+'-'+month+'-'+day;
 		return (isToday + month+'/'+day+' '+ weekday)
+	}
+
+	componentDidMount() {
+		this._fetchData();
+	}
+
+	_fetchData(){
+		console.log('fetch>>>>'+this.currentDateData);
+
+		this.setState({
+			data:[]
+		});
 	}
 }
 
