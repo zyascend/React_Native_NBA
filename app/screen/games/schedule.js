@@ -30,6 +30,7 @@ export class ScheduleScreen extends Component{
 		// this._renderItem.bind(this);
 		this._renderDateText.bind(this);
 		this._onPress.bind(this);
+		this._renderList.bind(this);
 
 		this.page = 0;//代表与今天相差的天数 +1明天 -1昨天
 		this.currentDateData = null;//用于网络请求的参数
@@ -40,11 +41,6 @@ export class ScheduleScreen extends Component{
 	}
 
 	render() {
-		if (this.state.data){
-			console.log('data=>>>>'+JSON.stringify(this.state.data));
-		}else {
-			console.log('data is empty');
-		}
 		return(
 			<View style={styles.container}>
 				<View style={styles.date}>
@@ -66,17 +62,33 @@ export class ScheduleScreen extends Component{
 						<Image source={require('../../assets/icons/arrow_datepicker_right.png')} style={styles.arrow}/>
 					</RkButton>
 				</View>
+				{this._renderList()}
+			</View>
+		)
+
+	}
+
+	_renderList(){
+		if (!this.state.data || this.state.data.length === 0){
+			return(
+				<View style={[styles.container,{justifyContent:'center', alignItems:'center'}]}>
+					<Image source={require('../../assets/icons/ic_empty.png')} style={{width:75,height:64}}/>
+					<RkText rkType='light' style={{color:theme.colors.screen.header,marginTop:10,fontSize:15}}>暂无赛程</RkText>
+				</View>
+			)
+		}else {
+			return(
 				<FlatList
 					style={styles.list}
 					data={this.state.data}
 					renderItem={this._renderItem}
 					keyExtractor={(item) => {return item.matchInfo.leftId}}
 					// ItemSeparatorComponent={this._renderSeparator}
-					>
+				>
 				</FlatList>
-			</View>
-		)
-	}
+			)
+		}
+	};
 
 	_onPress(operate){
 		this.page = this.page + operate;
@@ -110,11 +122,6 @@ export class ScheduleScreen extends Component{
 				console.log('error occurs')
 			}
 		});
-
-		// this.setState({
-		// 	data: [1,2,3,4,5,6]
-		// });
-
 	}
 
 
@@ -127,19 +134,11 @@ export class ScheduleScreen extends Component{
 
 					<Image style={[styles.image,{marginRight:5}]} source={{uri: info.leftBadge}}/>
 
-
 					<View style={styles.info_middle}>
 						<RkText rkType='light' style={styles.text_broadcasters}>{info.broadcasters.join('|')}</RkText>
 						{this._renderGoalView(info)}
-						<RkButton
-							rkType='outline rounded '
-							style={styles.view_video}
-							fontSize={10}
-							borderColor='skyblue'>
-							<Text>视频集锦</Text>
-						</RkButton>
+						{this._renderVideoButton(info)}
 					</View>
-
 
 					<Image style={[styles.image,{marginLeft:5}]} source={{uri: info.rightBadge}}/>
 
@@ -166,19 +165,57 @@ export class ScheduleScreen extends Component{
 			return (
 				<View style={styles.view_goal}>
 					<RkText rkType='regular' style={{fontSize:30,marginRight:15,color:leftColor}}>{info.leftGoal}</RkText>
-
 					<RkText rkType='light' style={{fontSize:10,color:theme.colors.text.secondary}}>已结束</RkText>
-
-					<RkText
-						rkType='regular'
-						style={{fontSize:30,marginLeft:15,color:rightColor}}>{info.rightGoal}</RkText>
+					<RkText rkType='regular' style={{fontSize:30,marginLeft:15,color:rightColor}}>{info.rightGoal}</RkText>
+				</View>
+			)
+		}else if(info.liveType === '3'){
+			let time = info.startTime.split(" ")[1].split(":");
+			let startTime = time[0]+':'+time[1];
+			return(
+				<View style={styles.view_goal}>
+					<RkText rkType='regular' style={{fontSize:30,color:rightColor}}>{startTime}</RkText>
 				</View>
 			)
 		}else {
 			return(
 				<View style={styles.view_goal}>
-
+					<RkText rkType='regular' style={{fontSize:30,color:rightColor}}>待完善</RkText>
 				</View>
+			)
+		}
+	}
+
+	_renderVideoButton(info) {
+		if (info.liveType === '3'){
+			return(
+				<RkButton
+					rkType='rounded'
+					style={styles.view_video}
+					fontSize={10}
+					backgroundColor={theme.colors.screen.bottomBar}>
+					<Text style={{color:theme.colors.text.inverse}}>比赛前瞻</Text>
+				</RkButton>
+			)
+		}else if (info.liveType === '4'){
+			return (
+				<RkButton
+					rkType='outline rounded '
+					style={styles.view_video}
+					fontSize={10}
+					borderColor={theme.colors.screen.bottomBar}>
+					<Text style={{color:theme.colors.screen.bottomBar}}>精彩视频</Text>
+				</RkButton>
+			)
+		}else {
+			return(
+				<RkButton
+					rkType='rounded'
+					style={styles.view_video}
+					fontSize={10}
+					backgroundColor={theme.colors.screen.bottomBar}>
+					<Text style={{color:theme.colors.text.inverse}}>正在进行</Text>
+				</RkButton>
 			)
 		}
 	}
@@ -248,8 +285,8 @@ let styles = StyleSheet.create({
 		justifyContent:'center'
 	},
 	view_video: {
-		height:20,
-		width:90,
+		height:22,
+		width:85,
 		marginBottom:5,
 		marginHorizontal:20,
 	},

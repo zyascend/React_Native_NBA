@@ -89,20 +89,3 @@ export class GamesScreen extends Component{
 		)
 	}
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-
-	},
-	lineStyle: {
-		width: Dimensions.get('window').width/4,
-		height: 3,
-		backgroundColor: theme.colors.screen.bottomBar,
-		marginBottom:3
-	},
-	tabBar: {
-		// alignItems:'center',
-		// justifyContent:'center'
-	},
-});
