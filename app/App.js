@@ -168,12 +168,12 @@ const NBAApp = StackNavigator(
 	}
 );
 
-export default class App extends Component<{}> {
-  render() {
-    return (
-		<NBAApp/>
-    );
-  }
-}
+
+const App = () => (
+	<NBAApp />
+);
+
+export default App;
+
 
 
