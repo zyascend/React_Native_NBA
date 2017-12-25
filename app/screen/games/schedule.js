@@ -16,6 +16,7 @@ import {
 import {LightTheme as theme} from "../../config/theme";
 import {FontAwesome} from "../../assets/icons";
 import {HttpManager} from "../../data/http/httpManager";
+import {ErrorView} from "../../component/errorView";
 
 
 const DayArray = ['周日','周一','周二','周三','周四','周五','周六'];
@@ -71,10 +72,7 @@ export class ScheduleScreen extends Component{
 	_renderList(){
 		if (!this.state.data || this.state.data.length === 0){
 			return(
-				<View style={[styles.container,{justifyContent:'center', alignItems:'center'}]}>
-					<Image source={require('../../assets/icons/ic_empty.png')} style={{width:75,height:64}}/>
-					<RkText rkType='light' style={{color:theme.colors.screen.header,marginTop:10,fontSize:15}}>暂无赛程</RkText>
-				</View>
+				<ErrorView/>
 			)
 		}else {
 			return(
