@@ -11,11 +11,11 @@ import {
 import {
 	RkButton,
 	RkText,
+	RkCard
 } from 'react-native-ui-kitten'
 import {LightTheme as theme} from "../../config/theme";
 import {FontAwesome} from "../../assets/icons";
 import {HttpManager} from "../../data/http/httpManager";
-import {RkCard} from "react-native-ui-kitten/src/components/card/rkCard";
 
 
 const DayArray = ['周日','周一','周二','周三','周四','周五','周六'];
