@@ -80,6 +80,7 @@ export class News extends Component{
 		let item = data.item;
 		return(
 			<TouchableOpacity
+				onPress={() => this.props.navigation.navigate('News', {id: item.newsId})}
 				activeOpacity={0.5}>
 				<RkCard rkType='horizontal' style={styles.item}>
 					<Image style={[styles.image]} source={{uri: item.imgurl2}}/>

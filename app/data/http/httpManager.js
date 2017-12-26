@@ -93,6 +93,14 @@ export class HttpManager extends Component{
 		});
 	}
 
+
+	static getNewsDetail(id,column,collectType,callback){
+		let url = 'http://sportsnba.qq.com/news/detail?column='+column+'&collectType='+collectType+'&articleId='+id;
+		HttpUtil.get(url,null,function (resData) {
+			callback(resData);
+		});
+
+	}
 	static getWidth(){
 		let {width,scale} = Dimensions.get('window');
 		return width * scale;
